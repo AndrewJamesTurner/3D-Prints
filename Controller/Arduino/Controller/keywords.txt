@@ -1,0 +1,7 @@
+Controller	KEYWORD1
+getLeftHorizontalPos	KEYWORD2
+getRightHorizontalPos	KEYWORD2
+getLeftVerticalPos	KEYWORD2
+getRightVerticalPos	KEYWORD2
+getLeftClickState	KEYWORD2
+getRightClickState	KEYWORD2

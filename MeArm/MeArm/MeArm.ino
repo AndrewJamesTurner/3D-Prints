@@ -1,7 +1,4 @@
-// Sweep
-// by BARRAGAN <http://barraganstudio.com> 
-// This example code is in the public domain.
-
+#include "Controller.h"
 
 #include <Servo.h> 
  
@@ -10,11 +7,20 @@ Servo moveX;
 Servo moveY;
 Servo rot;  
          
-const int griperControlPin = 2;  // pint for grip from joystick     
+const int griperControlPin = 3;  // pint for grip from joystick     
 const int xPosControlPin = 0;  // pint for grip from joystick 
 const int rotationControlPin = 1;  // pint for grip from joystick
 const int yPosControlPin = 2;  // pint for grip from joystick
  
+const int leftVRx = 2;   // yellow
+const int leftVRy = 3;   // white
+const int leftSW = 4;    // brown
+
+const int rightVRx = 0;  // green
+const int rightVRy = 1;  // blue
+const int rightSW = 2;   // purple 
+ 
+Controller controller(leftVRx, leftVRy, leftSW, rightVRx, rightVRy, rightSW);
 
 void setup() 
 { 
@@ -22,7 +28,7 @@ void setup()
   pinMode(griperControlPin,INPUT);
   digitalWrite(griperControlPin,HIGH);
   
-  gripper.attach(3);  // attaches the gripper servo on pin 3
+  gripper.attach(griperControlPin);  // attaches the gripper servo on pin 3
   moveX.attach(5);    // attaches the xMove servo on pin 5
   moveY.attach(9);
   rot.attach(6);
@@ -41,40 +47,55 @@ void loop()
   int joyStickXpos;
   int joyStickYpos;
 
-  joyStickGripperState = digitalRead(griperControlPin);
-  joyStickXpos = analogRead(xPosControlPin);
-  joyStickrotation = analogRead(rotationControlPin);
-  joyStickYpos = analogRead(yPosControlPin);
+  
   
   // toggle on press
-  if(joyStickGripperState == LOW){
+  if(controller.getRightClickState() == 1){
     toggleGripper();
   }
   
+    // toggle on press
+  if(controller.getLeftClickState() == 1){
+    toggleGripper();
+  }
+  
+  
   //
-  if(joyStickXpos > 800){
+  if(controller.getLeftVerticalPos() < 300){
     moveXPos(1);
   }
-  else if(joyStickXpos < 300){
+  else if(controller.getLeftVerticalPos() > 800){
     moveXPos(-1);
   }
   
+
   //
-  if(joyStickYpos > 800){
+  if(controller.getRightVerticalPos() > 800){
     moveYPos(1);
   }
-  else if(joyStickYpos < 300){
+  else if(controller.getRightVerticalPos() < 300){
     moveYPos(-1);
   }
   
   //
-  if(joyStickrotation > 800){
+  if(controller.getRightHorizontalPos() > 800){
+    moveRotation(-1);
+  }
+  
+  else if(controller.getRightHorizontalPos() < 300){
     moveRotation(1);
   }
   
-  else if(joyStickrotation < 300){
+   //
+  if(controller.getLeftHorizontalPos() > 800){
     moveRotation(-1);
   }
+  
+  else if(controller.getLeftHorizontalPos() < 300){
+    moveRotation(1);
+  }
+                          
+  
 } 
 
 
@@ -170,7 +191,7 @@ int toggleGripper(void){
 }
 
 void closeGripper(void){
-  gripper.write(79); 
+  gripper.write(80); 
 }
 
 void openGripper(void){
