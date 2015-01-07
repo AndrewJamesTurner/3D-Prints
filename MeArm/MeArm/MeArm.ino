@@ -8,9 +8,9 @@ Servo moveY;
 Servo rot;  
          
 const int griperControlPin = 3;  // pint for grip from joystick     
-const int xPosControlPin = 0;  // pint for grip from joystick 
-const int rotationControlPin = 1;  // pint for grip from joystick
-const int yPosControlPin = 2;  // pint for grip from joystick
+//const int xPosControlPin = 0;  // pint for grip from joystick 
+//const int rotationControlPin = 1;  // pint for grip from joystick
+//const int yPosControlPin = 2;  // pint for grip from joystick
  
 const int leftVRx = 2;   // yellow
 const int leftVRy = 3;   // white
